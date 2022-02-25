@@ -10,26 +10,32 @@ export default function Form() {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(string),
+			body: JSON.stringify({ string: string }),
 		}).then(console.log(string))
 	}
 
-	const fetchCalc = (calcId) => {
-		fetch(`http://localhost:3000/calculations/${calcId}`, {
+	const fetchCalc = () => {
+		fetch(`http://localhost:3001/calculations/U5ua16YZYONslNmxuZ86`, {
 			method: 'GET',
 		})
-			.then((res) => res.json())
-			.then((data) => setString(data))
+			.then((res) => {
+				res.json()
+				console.log(res)
+			})
+			.then((data) => {
+				setString(data.string)
+				console.log(data) 
+			})
 			.catch(console.error)
 	}
 
-	// useEffect(() => {
-	//   fetchCalc(/*calcId*/)
-	// }, [string])
+	useEffect(() => {
+		fetchCalc()
+	}, [])
 
 	const onSubmit = (event) => {
 		event.preventDefault()
-		addCalc(string)
+		addCalc()
 	}
 
 	return (
@@ -44,6 +50,8 @@ export default function Form() {
 				</label>
 				<input type='submit' value='Submit' />
 			</form>
+
+			{!string ? <h1>Loading...</h1> : string}
 		</>
 	)
 }

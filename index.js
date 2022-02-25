@@ -66,7 +66,7 @@ app.get('/calculations/:calcId', (request, response) => {
 		.get()
 		.then((doc) => {
 			let calc = doc.data()
-			response.status(200).send(`Your string is ${calc.result} characters long`)
+			response.status(200).send(calc)
 		})
 		.catch((err) => response.status(500).send(err))
 })
