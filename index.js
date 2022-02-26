@@ -17,8 +17,7 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-
+app.use(express.urlencoded({ extended: true }))
 
 const PORT = 3001
 app.listen(PORT, () => {
@@ -66,7 +65,22 @@ app.get('/calculations/:calcId', (request, response) => {
 		.get()
 		.then((doc) => {
 			let calc = doc.data()
+			calc.id = doc.id
 			response.status(200).send(calc)
 		})
 		.catch((err) => response.status(500).send(err))
+})
+
+	app.get('/calculations', (request, response) => {
+    const db = connectToFirestore()
+    db.collection('calculations').get()
+    .then(snapshot => {
+        const calculations = snapshot.docs.map(doc => {
+            let calculation = doc.data()
+            calculation.id = doc.id
+            return calculation
+        })
+        response.status(200).send(calculations)
+    })
+    .catch(console.error)
 })

@@ -14,24 +14,27 @@ export default function Form() {
 		}).then(console.log(string))
 	}
 
-	const fetchCalc = () => {
-		fetch(`http://localhost:3001/calculations/U5ua16YZYONslNmxuZ86`, {
+	const getCalcById = () => {
+		fetch(`http://localhost:3001/calculations/:CalcId`, {
 			method: 'GET',
 		})
-			.then((res) => {
-				res.json()
-				console.log(res)
-			})
-			.then((data) => {
-				setString(data.string)
-				console.log(data) 
-			})
+			.then((res) => res.json())
+			.then((data) => console.log(data))
 			.catch(console.error)
 	}
 
+	const getAllCalcs = () => {
+		
+	}
+
 	useEffect(() => {
-		fetchCalc()
-	}, [])
+		fetch(`http://localhost:3001/calculations/`, {
+			method: 'GET',
+		})
+			.then((res) => res.json())
+			.then((data) => console.log(data))
+			.catch(console.error)
+	}, [setString])
 
 	const onSubmit = (event) => {
 		event.preventDefault()
@@ -51,7 +54,7 @@ export default function Form() {
 				<input type='submit' value='Submit' />
 			</form>
 
-			{!string ? <h1>Loading...</h1> : string}
+			{!string ? '' : string}
 		</>
 	)
 }
