@@ -1,7 +1,12 @@
+import { useContext } from 'react'
+import { CalculationContext } from '../App'
+
 export default function Results() {
-  return(
-    <>
-    <h1>HI</h1>
-    </>
-  )
+	const { newCalc } = useContext(CalculationContext)
+
+	return (
+		<>
+			<p>{newCalc.result}</p>
+		</>
+	)
 }

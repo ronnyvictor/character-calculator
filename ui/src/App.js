@@ -1,17 +1,45 @@
-import { createContext, useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom'
-import Form from './components/Form';
-import Results from './components/Results';
-import './App.css';
+import { useState, useEffect, createContext } from 'react'
+import Form from './components/Form'
+import Results from './components/Results'
+import './App.css'
 
 export const CalculationContext = createContext()
 
-function App() {
-  return (
-    <>
-   <Form />
-    </>
-  );
-}
+export default function App() {
+	const [form, setForm] = useState({string: ''})
 
-export default App;
+	function calcCharsNoSpaces(str) {
+		return str.replace(/\s/g, '').length
+	}
+
+	const newCalc = {
+		string: form.string,
+		result: calcCharsNoSpaces(form.string),
+	}
+
+	// useEffect(() => {
+	// 	fetch('http://localhost:3001/calculations', {
+	// 		method: 'POST',
+	// 		headers: {
+	// 			Accept: 'application/json',
+	// 			'Content-Type': 'application/json',
+	// 		},
+	// 		body: JSON.stringify(newCalc),
+	// 	}).then(console.log(newCalc))
+	// }, [newCalc])
+
+	return (
+		<>
+			<CalculationContext.Provider
+				value={{
+					form,
+					setForm,
+					newCalc,
+				}}
+			>
+				<Form />
+				<Results />
+			</CalculationContext.Provider>
+		</>
+	)
+}
